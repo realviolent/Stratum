@@ -31,6 +31,7 @@ local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
+local TextService = game:GetService("TextService")
 local Localization = game:GetService("LocalizationService")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -3644,7 +3645,12 @@ function Luna:CreateWindow(WindowSettings)
 				TweenService:Create(Input.InputFrame.InputBox, TweenInfo.new(0.3, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()
 
 				Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
-				Input.InputFrame.Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 52, 0, 30)
+				local textWidth = Input.InputFrame.InputBox.TextBounds.X
+				if Input.InputFrame.InputBox.Text == "" then
+					local size = TextService:GetTextSize(InputSettings.PlaceholderText, Input.InputFrame.InputBox.TextSize, Input.InputFrame.InputBox.Font, Vector2.new(math.huge, math.huge))
+					textWidth = size.X
+				end
+				Input.InputFrame.Size = UDim2.new(0, textWidth + 52, 0, 30)
 
 				Input.InputFrame.InputBox.FocusLost:Connect(function(bleh)
 
@@ -3690,7 +3696,12 @@ function Luna:CreateWindow(WindowSettings)
 							Input.InputFrame.InputBox.Text = Input.InputFrame.InputBox.Text:sub(1, InputSettings.MaxCharacters)
 						end
 					end
-					TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 52, 0, 30)}):Play()
+					local textWidth = Input.InputFrame.InputBox.TextBounds.X
+					if Input.InputFrame.InputBox.Text == "" then
+						local size = TextService:GetTextSize(Input.InputFrame.InputBox.PlaceholderText, Input.InputFrame.InputBox.TextSize, Input.InputFrame.InputBox.Font, Vector2.new(math.huge, math.huge))
+						textWidth = size.X
+					end
+					TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, textWidth + 52, 0, 30)}):Play()
 					if not InputSettings.Enter then
 						local Success, Response = pcall(function()
 							InputSettings.Callback(Input.InputFrame.InputBox.Text)
@@ -5012,6 +5023,7 @@ function Luna:CreateWindow(WindowSettings)
 			TweenService:Create(Bind.BindFrame.BindBox, TweenInfo.new(0.3, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()
 
 
+			Bind.BindFrame.BindBox.PlaceholderText = "..."
 			Bind.BindFrame.BindBox.Text = BindSettings.CurrentBind
 			Bind.BindFrame.BindBox.Size = UDim2.new(0, Bind.BindFrame.BindBox.TextBounds.X + 20, 0, 42)
 
@@ -5131,7 +5143,12 @@ function Luna:CreateWindow(WindowSettings)
 			end)
 
 			Bind.BindFrame.BindBox:GetPropertyChangedSignal("Text"):Connect(function()
-				TweenService:Create(Bind.BindFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, Bind.BindFrame.BindBox.TextBounds.X + 20, 0, 30)}):Play()
+				local textWidth = Bind.BindFrame.BindBox.TextBounds.X
+				if Bind.BindFrame.BindBox.Text == "" then
+					local size = TextService:GetTextSize("...", Bind.BindFrame.BindBox.TextSize, Bind.BindFrame.BindBox.Font, Vector2.new(math.huge, math.huge))
+					textWidth = size.X
+				end
+				TweenService:Create(Bind.BindFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, textWidth + 20, 0, 30)}):Play()
 			end)
 
 			function BindV:Set(NewBindSettings)
@@ -5225,6 +5242,7 @@ function Luna:CreateWindow(WindowSettings)
 			TweenService:Create(Bind.BindFrame.BindBox, TweenInfo.new(0.3, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()
 
 
+			Bind.BindFrame.BindBox.PlaceholderText = "..."
 			Bind.BindFrame.BindBox.Text = BindSettings.CurrentBind
 			Bind.BindFrame.BindBox.Size = UDim2.new(0, Bind.BindFrame.BindBox.TextBounds.X + 16, 0, 42)
 
@@ -5329,7 +5347,12 @@ function Luna:CreateWindow(WindowSettings)
 			end)
 
 			Bind.BindFrame.BindBox:GetPropertyChangedSignal("Text"):Connect(function()
-				TweenService:Create(Bind.BindFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, Bind.BindFrame.BindBox.TextBounds.X + 16, 0, 30)}):Play()
+				local textWidth = Bind.BindFrame.BindBox.TextBounds.X
+				if Bind.BindFrame.BindBox.Text == "" then
+					local size = TextService:GetTextSize("...", Bind.BindFrame.BindBox.TextSize, Bind.BindFrame.BindBox.Font, Vector2.new(math.huge, math.huge))
+					textWidth = size.X
+				end
+				TweenService:Create(Bind.BindFrame, TweenInfo.new(0.55, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Size = UDim2.new(0, textWidth + 16, 0, 30)}):Play()
 			end)
 
 			function BindV:Set(NewBindSettings)
